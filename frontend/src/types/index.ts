@@ -32,16 +32,16 @@ export type TeamMember = {
 }
 
 export type CustomerHomeProfile = {
-  home_style: 'Modern' | 'Modern Farmhouse' | 'Traditional' | 'Contemporary' | 'Other' | 'Not selected'
+  home_style: 'Modern' | 'Contemporary' | 'Transitional' | 'Traditional' | 'Mediterranean' | 'Craftsman' | 'Not selected' | string
   number_of_floors: number | null
   bedrooms: number | null
   bathrooms: number | null
-  garage: 'No Garage' | '1-Car' | '2-Car' | '3-Car+' | 'Not selected'
-  home_office: 'Included' | 'Not Included' | 'Not selected'
-  guest_suite: 'Included' | 'Not Included' | 'Not selected'
-  covered_patio: 'Included' | 'Not Included' | 'Not selected'
-  kitchen_type: 'Open Kitchen' | 'Closed Kitchen' | "Chef's Kitchen" | 'Not selected'
-  material_package: 'Essential' | 'Premium' | 'Luxury' | 'Not selected'
+  garage: '2 Car Garage' | '3 Car Garage' | 'Not selected' | string
+  home_office: 'Yes' | 'No' | 'Optional' | 'Not selected' | string
+  guest_suite: 'Yes' | 'No' | 'Optional' | 'Not selected' | string
+  covered_patio: 'Covered Patio' | 'Open Patio' | 'Pool Ready' | 'Full Outdoor Kitchen' | 'Not selected' | string
+  kitchen_type: 'Open Kitchen' | "Butler's Pantry" | 'Island Kitchen' | 'Not selected' | string
+  material_package: 'Standard' | 'Premium' | 'Luxury' | 'Custom' | 'Not selected' | string
   lot_size?: string
   budget_range?: string
   timeline_preference?: string

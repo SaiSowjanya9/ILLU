@@ -84,34 +84,38 @@ class MockAIService:
         elif bedrooms:
             bathrooms = bedrooms  # Default: same as bedrooms
         
-        # Detect office - match frontend type: 'Included' | 'Not Included' | 'Not selected'
-        home_office = "Included" if "office" in message_lower or "work from home" in message_lower else None
+        # Detect office
+        home_office = "Yes" if "office" in message_lower or "work from home" in message_lower else None
         
-        # Detect guest suite - match frontend type
-        guest_suite = "Included" if "guest" in message_lower or "parents" in message_lower or "in-laws" in message_lower else None
+        # Detect guest suite
+        guest_suite = "Yes" if "guest" in message_lower or "parents" in message_lower or "in-laws" in message_lower else None
         
-        # Detect garage - match frontend type: 'No Garage' | '1-Car' | '2-Car' | '3-Car+' | 'Not selected'
+        # Detect garage
         garage = None
         if "3 car" in message_lower or "three car" in message_lower:
-            garage = "3-Car+"
+            garage = "3 Car Garage"
         elif "2 car" in message_lower or "two car" in message_lower:
-            garage = "2-Car"
-        elif "1 car" in message_lower or "one car" in message_lower:
-            garage = "1-Car"
-        elif "no garage" in message_lower:
-            garage = "No Garage"
+            garage = "2 Car Garage"
         
-        # Detect kitchen - match frontend type
+        # Detect kitchen
         kitchen = None
         if "open kitchen" in message_lower or "open concept" in message_lower or "flows into" in message_lower:
             kitchen = "Open Kitchen"
-        elif "chef" in message_lower:
-            kitchen = "Chef's Kitchen"
+        elif "butler" in message_lower:
+            kitchen = "Butler's Pantry"
+        elif "island" in message_lower:
+            kitchen = "Island Kitchen"
         
-        # Detect outdoor/patio - match frontend type: 'Included' | 'Not Included' | 'Not selected'
+        # Detect outdoor/patio
         outdoor = None
-        if "patio" in message_lower or "outdoor" in message_lower or "pool" in message_lower or "backyard" in message_lower:
-            outdoor = "Included"
+        if "pool" in message_lower:
+            outdoor = "Pool Ready"
+        elif "patio" in message_lower or "covered" in message_lower:
+            outdoor = "Covered Patio"
+        elif "outdoor kitchen" in message_lower:
+            outdoor = "Full Outdoor Kitchen"
+        elif "outdoor" in message_lower or "backyard" in message_lower:
+            outdoor = "Open Patio"
         
         # Build response message
         message_parts = ["Thank you for sharing your vision!"]

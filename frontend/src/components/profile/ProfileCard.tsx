@@ -9,16 +9,16 @@ type ProfileCardProps = {
 }
 
 const fieldOptions: Record<string, string[]> = {
-  home_style: ['Modern', 'Modern Farmhouse', 'Contemporary', 'Traditional', 'Other'],
+  home_style: ['Modern', 'Contemporary', 'Transitional', 'Traditional', 'Mediterranean', 'Craftsman'],
   number_of_floors: ['1', '2'],
   bedrooms: ['3', '4', '5'],
   bathrooms: ['3', '4', '5'],
-  garage: ['No Garage', '1-Car', '2-Car', '3-Car+'],
-  home_office: ['Included', 'Not Included'],
-  guest_suite: ['Included', 'Not Included'],
-  covered_patio: ['Included', 'Not Included'],
-  kitchen_type: ['Open Kitchen', 'Closed Kitchen', "Chef's Kitchen"],
-  material_package: ['Essential', 'Premium', 'Luxury'],
+  garage: ['2 Car Garage', '3 Car Garage'],
+  home_office: ['Yes', 'No', 'Optional'],
+  guest_suite: ['Yes', 'No', 'Optional'],
+  covered_patio: ['Covered Patio', 'Open Patio', 'Pool Ready', 'Full Outdoor Kitchen'],
+  kitchen_type: ['Open Kitchen', "Butler's Pantry", 'Island Kitchen'],
+  material_package: ['Standard', 'Premium', 'Luxury', 'Custom'],
 }
 
 const profileFields: {
