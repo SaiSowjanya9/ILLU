@@ -26,18 +26,18 @@ class IlluAnalyzeRequest(BaseModel):
 class FieldSources(BaseModel):
     """Source for each selection displayed on the Home Profile screen."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    home_style: FieldSource = "missing"
-    number_of_floors: FieldSource = "missing"
-    bedrooms: FieldSource = "missing"
-    bathrooms: FieldSource = "missing"
-    garage: FieldSource = "missing"
-    home_office: FieldSource = "missing"
-    guest_suite: FieldSource = "missing"
-    covered_patio: FieldSource = "missing"
-    kitchen_type: FieldSource = "missing"
-    material_package: FieldSource = "missing"
+    home_style: Optional[FieldSource] = "missing"
+    number_of_floors: Optional[FieldSource] = "missing"
+    bedrooms: Optional[FieldSource] = "missing"
+    bathrooms: Optional[FieldSource] = "missing"
+    garage: Optional[FieldSource] = "missing"
+    home_office: Optional[FieldSource] = "missing"
+    guest_suite: Optional[FieldSource] = "missing"
+    covered_patio: Optional[FieldSource] = "missing"
+    kitchen_type: Optional[FieldSource] = "missing"
+    material_package: Optional[FieldSource] = "missing"
 
 
 class IlluAnalyzeResponse(BaseModel):
