@@ -71,31 +71,28 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
                 </div>
               </div>
 
-              {/* Right: Feature cards */}
+              {/* Right: Stacked Process Cards */}
               <div className="hidden lg:block">
-                <div className="relative">
-                  {/* Floating card effect */}
-                  <div className="float absolute -right-4 -top-4 h-full w-full rounded-3xl border border-[#D4AF37]/10 bg-[#D4AF37]/5" style={{ animationDelay: '-2s' }} />
-                  <div className="glass-card relative p-8">
-                    <div className="space-y-6">
-                      <ProcessStep 
-                        step="01" 
-                        title="Share Your Vision" 
-                        description="Tell Illu about your family, lifestyle, and dream home"
-                        isActive
-                      />
-                      <ProcessStep 
-                        step="02" 
-                        title="AI Team Assembly" 
-                        description="Specialists in design, finance & construction join your project"
-                      />
-                      <ProcessStep 
-                        step="03" 
-                        title="Personalized Proposal" 
-                        description="Receive detailed plans with pricing and timeline"
-                      />
-                    </div>
-                  </div>
+                <div className="relative space-y-5">
+                  <ProcessCard 
+                    step="01" 
+                    title="Share Your Vision" 
+                    description="Tell Illu about your family, lifestyle, and dream home"
+                    isActive
+                    delay={0}
+                  />
+                  <ProcessCard 
+                    step="02" 
+                    title="AI Team Assembly" 
+                    description="Specialists in design, finance & construction join your project"
+                    delay={150}
+                  />
+                  <ProcessCard 
+                    step="03" 
+                    title="Personalized Proposal" 
+                    description="Receive detailed plans with pricing and timeline"
+                    delay={300}
+                  />
                 </div>
               </div>
             </div>
@@ -145,29 +142,47 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   )
 }
 
-function ProcessStep({ 
+function ProcessCard({ 
   step, 
   title, 
   description,
-  isActive = false
+  isActive = false,
+  delay = 0
 }: { 
   step: string
   title: string
   description: string 
   isActive?: boolean
+  delay?: number
 }) {
   return (
-    <div className={`flex gap-5 ${isActive ? '' : 'opacity-50'}`}>
-      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-sm font-semibold ${
-        isActive 
-          ? 'bg-gradient-to-br from-[#D4AF37] to-[#AA8C2C] text-black' 
-          : 'border border-white/10 bg-white/5 text-white/50'
-      }`}>
-        {step}
-      </div>
-      <div>
-        <h3 className="font-medium text-white">{title}</h3>
-        <p className="mt-1 text-sm text-white/40">{description}</p>
+    <div 
+      className={`glass-card group animate-fade-in-up opacity-0 p-6 transition-all duration-500 hover:scale-[1.02] hover:border-[#D4AF37]/30 ${
+        isActive ? 'border-[#D4AF37]/20' : ''
+      }`}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <div className="flex items-start gap-5">
+        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-sm font-bold transition-all duration-300 ${
+          isActive 
+            ? 'bg-gradient-to-br from-[#D4AF37] to-[#AA8C2C] text-black shadow-[0_0_30px_rgba(212,175,55,0.3)]' 
+            : 'border border-white/10 bg-white/5 text-white/40 group-hover:border-[#D4AF37]/30 group-hover:text-white/60'
+        }`}>
+          {step}
+        </div>
+        <div className="flex-1">
+          <h3 className={`text-lg font-medium transition-colors ${isActive ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
+            {title}
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/40">{description}</p>
+        </div>
+        {isActive && (
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D4AF37]/10">
+            <svg className="h-4 w-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        )}
       </div>
     </div>
   )
