@@ -37,17 +37,19 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
       {/* Main content */}
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header with logo */}
-        <header className="flex items-center justify-between px-8 py-8 sm:px-12 lg:px-20">
-          <img 
-            src="/logo.png" 
-            alt="ILLU" 
-            className="h-14 w-auto sm:h-16 lg:h-20 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]" 
-          />
-          <nav className="hidden items-center gap-8 sm:flex">
-            <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">About</a>
-            <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">Process</a>
-            <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">Contact</a>
-          </nav>
+        <header className="px-8 py-8 sm:px-12 lg:px-20">
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
+            <img 
+              src="/logo.png" 
+              alt="ILLU" 
+              className="h-14 w-auto sm:h-16 lg:h-20 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]" 
+            />
+            <nav className="hidden items-center gap-8 sm:flex">
+              <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">About</a>
+              <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">Process</a>
+              <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">Contact</a>
+            </nav>
+          </div>
         </header>
 
         {/* Hero section */}
