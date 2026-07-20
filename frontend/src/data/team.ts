@@ -1,0 +1,118 @@
+import type { TeamMember, DesignOption } from '../types'
+
+export const illu: TeamMember = {
+  id: 'illu',
+  name: 'Illu',
+  role: 'primary',
+  title: 'Your Home Advisor',
+  expertise: ['Lifestyle Discovery', 'Team Coordination', 'Project Orchestration'],
+  avatar: 'I',
+  accentColor: '#C9A227',
+  status: 'idle',
+}
+
+export const teamMembers: TeamMember[] = [
+  {
+    id: 'maya',
+    name: 'Maya',
+    role: 'design',
+    title: 'Senior Design Consultant',
+    expertise: ['Architecture', 'Interior Design', 'Space Planning', 'Style Curation'],
+    avatar: 'M',
+    accentColor: '#D4A574',
+    status: 'idle',
+  },
+  {
+    id: 'mason',
+    name: 'Mason',
+    role: 'construction',
+    title: 'Construction Manager',
+    expertise: ['Building Methods', 'Timeline Planning', 'Quality Standards', 'Site Coordination'],
+    avatar: 'Ma',
+    accentColor: '#7A9E9F',
+    status: 'idle',
+  },
+  {
+    id: 'ethan',
+    name: 'Ethan',
+    role: 'financial',
+    title: 'Financial Advisor',
+    expertise: ['Cost Estimation', 'Budget Planning', 'Financing Options', 'Value Engineering'],
+    avatar: 'E',
+    accentColor: '#8FAE8B',
+    status: 'idle',
+  },
+  {
+    id: 'olivia',
+    name: 'Olivia',
+    role: 'materials',
+    title: 'Materials Specialist',
+    expertise: ['Material Selection', 'Sustainability', 'Finishes', 'Supplier Relations'],
+    avatar: 'O',
+    accentColor: '#B8936E',
+    status: 'idle',
+  },
+  {
+    id: 'noah',
+    name: 'Noah',
+    role: 'success',
+    title: 'Customer Success Manager',
+    expertise: ['Communication', 'Issue Resolution', 'Timeline Updates', 'Client Relations'],
+    avatar: 'N',
+    accentColor: '#9B8AA5',
+    status: 'idle',
+  },
+  {
+    id: 'ava',
+    name: 'Ava',
+    role: 'warranty',
+    title: 'Warranty Specialist',
+    expertise: ['Home Warranties', 'Maintenance Plans', 'Long-term Support', 'Documentation'],
+    avatar: 'A',
+    accentColor: '#6E9BA3',
+    status: 'idle',
+  },
+]
+
+export const designOptions: DesignOption[] = [
+  {
+    id: 'modern-family',
+    name: 'Modern Family',
+    description: 'Open gathering spaces with a calm daily rhythm. Designed for families who value connection without sacrificing personal space.',
+    features: ['Open floor plan', 'Flexible loft space', 'Dedicated home office', 'Seamless indoor-outdoor flow'],
+    floorPlan: '4 beds · 3 baths · Open kitchen · Loft · Home office',
+    estimatedSqFt: '2,800 - 3,200 sq ft',
+    accent: 'from-[#C9A227] via-[#9A7B1A] to-[#4A3A0D]',
+  },
+  {
+    id: 'modern-farmhouse',
+    name: 'Modern Farmhouse',
+    description: 'Warm materials and refined indoor-outdoor living. Perfect for those who appreciate tradition with a modern sensibility.',
+    features: ['Wraparound porch', 'Guest suite', 'Chef\'s kitchen', 'Mudroom entry'],
+    floorPlan: '4 beds · 3.5 baths · Guest suite · Covered patio · Study',
+    estimatedSqFt: '3,000 - 3,500 sq ft',
+    accent: 'from-[#D4A574] via-[#8B6914] to-[#3D2E1A]',
+  },
+  {
+    id: 'contemporary-living',
+    name: 'Contemporary Living',
+    description: 'Clean architecture with abundant natural light. For those who appreciate minimalist luxury and thoughtful design.',
+    features: ['Floor-to-ceiling windows', 'Private primary suite', 'Flex room', 'Smart home ready'],
+    floorPlan: '5 beds · 4 baths · Glass living room · Flex room · Private suite',
+    estimatedSqFt: '3,400 - 4,000 sq ft',
+    accent: 'from-[#E5C158] via-[#C9A227] to-[#1A1A1A]',
+  },
+]
+
+export const defaultCustomerHomeProfile = {
+  home_style: 'Not selected' as const,
+  number_of_floors: null,
+  bedrooms: null,
+  bathrooms: null,
+  garage: 'Not selected' as const,
+  home_office: 'Not selected' as const,
+  guest_suite: 'Not selected' as const,
+  covered_patio: 'Not selected' as const,
+  kitchen_type: 'Not selected' as const,
+  material_package: 'Not selected' as const,
+}
