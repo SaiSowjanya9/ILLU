@@ -6,17 +6,17 @@ from pydantic import ValidationError
 
 from app.models.customer_home_profile import CustomerHomeProfile
 from app.schemas.illu_schema import IlluAnalyzeResponse
-from app.services.azure_openai_service import AzureOpenAIService
+from app.services.mock_ai_service import MockAIService
 
 
 logger = logging.getLogger(__name__)
 
 
 class IlluAdvisor:
-    """Understands customer requirements using Azure OpenAI."""
+    """Understands customer requirements using AI (or mock for testing)."""
 
     def __init__(self) -> None:
-        self.azure_service = AzureOpenAIService()
+        self.ai_service = MockAIService()
 
     def analyze(
         self,
@@ -26,7 +26,7 @@ class IlluAdvisor:
         """Analyze a customer description and return structured profile data."""
 
         current_profile_json = current_profile.model_dump_json(indent=2)
-        raw_response = self.azure_service.analyze_customer_message(
+        raw_response = self.ai_service.analyze_customer_message(
             customer_message=customer_message,
             current_profile_json=current_profile_json,
         )
@@ -34,8 +34,8 @@ class IlluAdvisor:
         try:
             response_data = json.loads(raw_response)
         except JSONDecodeError as error:
-            logger.exception("Azure OpenAI returned invalid JSON.")
-            raise ValueError("Azure OpenAI returned invalid JSON.") from error
+            logger.exception("AI service returned invalid JSON.")
+            raise ValueError("AI service returned invalid JSON.") from error
 
         self._normalize_numeric_profile_values(response_data)
 
@@ -47,15 +47,15 @@ class IlluAdvisor:
                 for issue in error.errors()
             )
             logger.exception(
-                "Azure OpenAI returned JSON that does not match the Home Profile schema: %s",
+                "AI service returned JSON that does not match the Home Profile schema: %s",
                 validation_details,
             )
             raise ValueError(
-                f"Azure OpenAI returned an invalid Home Profile response: {validation_details}"
+                f"AI service returned an invalid Home Profile response: {validation_details}"
             ) from error
 
     def _normalize_numeric_profile_values(self, response_data: object) -> None:
-        """Convert numeric strings from Azure into the JSON numbers our schema expects."""
+        """Convert numeric strings from AI into the JSON numbers our schema expects."""
 
         if not isinstance(response_data, dict):
             return

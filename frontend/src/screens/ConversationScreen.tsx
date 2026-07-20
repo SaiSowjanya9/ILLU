@@ -17,6 +17,7 @@ type ConversationScreenProps = {
   onSendMessage: (message: string) => Promise<void>
   onProceedToDesign: () => void
   onLogoClick: () => void
+  onFieldUpdate?: (field: string, value: string) => void
 }
 
 export function ConversationScreen({
@@ -29,6 +30,7 @@ export function ConversationScreen({
   onSendMessage,
   onProceedToDesign,
   onLogoClick,
+  onFieldUpdate,
 }: ConversationScreenProps) {
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -126,7 +128,7 @@ export function ConversationScreen({
               </p>
             </div>
 
-            <ProfileCard profile={profile} fieldSources={fieldSources} />
+            <ProfileCard profile={profile} fieldSources={fieldSources} onFieldUpdate={onFieldUpdate} />
 
             {activeTeamMembers.length > 0 && (
               <div>

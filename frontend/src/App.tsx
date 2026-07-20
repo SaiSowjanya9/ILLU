@@ -169,6 +169,11 @@ function App() {
     setScreen('team-assembly')
   }
 
+  function handleFieldUpdate(field: string, value: string | number) {
+    setCustomerProfile(prev => ({ ...prev, [field]: value }))
+    setFieldSources(prev => ({ ...prev, [field]: 'manual' as const }))
+  }
+
   function handleTeamAssemblyComplete() {
     setActiveTeamMembers(teamMembers.filter(m => 
       ['maya', 'ethan', 'olivia'].includes(m.id)
@@ -213,6 +218,7 @@ function App() {
           onSubmit={handleInitialDescription}
           isProcessing={isProcessing}
           processingStatus={processingStatus}
+          onBack={() => setScreen('welcome')}
         />
       )
 
@@ -228,6 +234,7 @@ function App() {
           onSendMessage={handleChatMessage}
           onProceedToDesign={handleProceedToDesign}
           onLogoClick={handleLogoClick}
+          onFieldUpdate={handleFieldUpdate}
         />
       )
 
