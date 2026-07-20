@@ -7,7 +7,7 @@ export const illu: TeamMember = {
   title: 'Your Home Advisor',
   expertise: ['Lifestyle Discovery', 'Team Coordination', 'Project Orchestration'],
   avatar: 'I',
-  accentColor: '#C9A227',
+  accentColor: '#D4AF37',
   status: 'idle',
 }
 

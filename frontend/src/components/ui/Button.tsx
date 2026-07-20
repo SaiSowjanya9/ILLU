@@ -11,15 +11,15 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-gradient-to-r from-[#C9A227] to-[#E5C158] text-[#0D0D0D] border-[#C9A227]/60 hover:from-[#E5C158] hover:to-[#C9A227] shadow-lg shadow-[#C9A227]/20',
-  secondary: 'bg-transparent text-[#C9A227] border-[#C9A227]/40 hover:bg-[#C9A227]/10 hover:border-[#C9A227]/60',
-  ghost: 'bg-transparent text-white/70 border-transparent hover:bg-white/5 hover:text-white',
+  primary: 'bg-gradient-to-r from-[#D4AF37] to-[#AA8C2C] text-black border-transparent hover:shadow-[0_20px_40px_rgba(212,175,55,0.35)] hover:-translate-y-0.5',
+  secondary: 'bg-white/5 text-white border-white/10 hover:border-[#D4AF37]/30 hover:bg-white/10 backdrop-blur-sm',
+  ghost: 'bg-transparent text-white/60 border-transparent hover:bg-white/5 hover:text-white',
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'min-h-9 px-4 text-xs',
-  md: 'min-h-11 px-6 text-sm',
-  lg: 'min-h-14 px-8 text-base',
+  sm: 'min-h-10 px-5 text-xs rounded-xl',
+  md: 'min-h-12 px-7 text-sm rounded-2xl',
+  lg: 'min-h-14 px-9 text-base rounded-2xl',
 }
 
 export function Button({ 
@@ -34,9 +34,9 @@ export function Button({
   return (
     <button
       className={`
-        inline-flex items-center justify-center gap-2 rounded-lg border font-semibold 
-        transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#C9A227]/50 focus:ring-offset-2 focus:ring-offset-[#0D0D0D]
-        disabled:cursor-not-allowed disabled:opacity-50
+        inline-flex items-center justify-center gap-2 border font-semibold 
+        transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50 focus:ring-offset-2 focus:ring-offset-[#030303]
+        disabled:cursor-not-allowed disabled:opacity-40 active:translate-y-0
         ${variantClasses[variant]}
         ${sizeClasses[size]}
         ${className}
