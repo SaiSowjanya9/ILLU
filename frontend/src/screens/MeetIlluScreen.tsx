@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { Avatar, Button } from '../components/ui'
-import { illu } from '../data/team'
+import { Button } from '../components/ui'
 
 type MeetIlluScreenProps = {
   onSubmit: (description: string) => Promise<void>
@@ -29,22 +28,18 @@ export function MeetIlluScreen({ onSubmit, isProcessing, processingStatus }: Mee
       
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-10 sm:px-10 lg:px-16">
         <header className="mb-16">
-          <div className="illu-logo text-2xl">ILLU</div>
+          <img 
+            src="/logo.png" 
+            alt="ILLU" 
+            className="h-14 w-auto sm:h-16 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]" 
+          />
         </header>
 
         <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:items-start">
           <section className="lg:sticky lg:top-10">
-            <div className="flex items-start gap-6">
-              <Avatar 
-                name={illu.name}
-                initial={illu.avatar}
-                accentColor={illu.accentColor}
-                size="xl"
-              />
-              <div>
-                <h1 className="text-4xl font-extralight text-white sm:text-5xl">Illu</h1>
-                <p className="mt-2 text-lg font-medium text-[#D4AF37]">Your Home Advisor</p>
-              </div>
+            <div>
+              <h1 className="text-4xl font-extralight text-white sm:text-5xl">Illu</h1>
+              <p className="mt-2 text-lg font-medium text-[#D4AF37]">Your Home Advisor</p>
             </div>
 
             <div className="mt-12 space-y-5 text-base leading-relaxed text-white/50">

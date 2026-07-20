@@ -1,8 +1,27 @@
+import { useState, useEffect } from 'react'
+
 type WelcomeScreenProps = {
   onStart: () => void
 }
 
+const processSteps = [
+  { step: '01', title: 'Share Your Vision', description: 'Tell Illu about your family, lifestyle, and dream home' },
+  { step: '02', title: 'AI Team Assembly', description: 'Specialists in design, finance & construction join your project' },
+  { step: '03', title: 'Personalized Proposal', description: 'Receive detailed plans with pricing and timeline' },
+]
+
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex(prev => (prev + 1) % processSteps.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#030303]">
       {/* Animated gradient background */}
@@ -17,9 +36,13 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
       
       {/* Main content */}
       <div className="relative z-10 flex min-h-screen flex-col">
-        {/* Header with glowing ILLU logo */}
-        <header className="flex items-center justify-between px-8 py-10 sm:px-12 lg:px-20">
-          <div className="illu-logo text-2xl sm:text-3xl">ILLU</div>
+        {/* Header with logo */}
+        <header className="flex items-center justify-between px-8 py-8 sm:px-12 lg:px-20">
+          <img 
+            src="/logo.png" 
+            alt="ILLU" 
+            className="h-14 w-auto sm:h-16 lg:h-20 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]" 
+          />
           <nav className="hidden items-center gap-8 sm:flex">
             <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">About</a>
             <a href="#" className="text-sm text-white/40 transition-colors hover:text-white/70">Process</a>
@@ -71,28 +94,77 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
                 </div>
               </div>
 
-              {/* Right: Stacked Process Cards */}
+              {/* Right: Auto-rotating Stacked Cards */}
               <div className="hidden lg:block">
-                <div className="relative space-y-5">
-                  <ProcessCard 
-                    step="01" 
-                    title="Share Your Vision" 
-                    description="Tell Illu about your family, lifestyle, and dream home"
-                    isActive
-                    delay={0}
-                  />
-                  <ProcessCard 
-                    step="02" 
-                    title="AI Team Assembly" 
-                    description="Specialists in design, finance & construction join your project"
-                    delay={150}
-                  />
-                  <ProcessCard 
-                    step="03" 
-                    title="Personalized Proposal" 
-                    description="Receive detailed plans with pricing and timeline"
-                    delay={300}
-                  />
+                <div className="relative h-[280px]">
+                  {processSteps.map((item, index) => {
+                    const offset = index - activeIndex
+                    const isActive = index === activeIndex
+                    const isPast = index < activeIndex
+                    
+                    return (
+                      <div
+                        key={item.step}
+                        onClick={() => setActiveIndex(index)}
+                        className="absolute inset-x-0 cursor-pointer transition-all duration-500 ease-out"
+                        style={{
+                          transform: `translateY(${isPast ? -20 : offset * 85}px) scale(${isActive ? 1 : 0.95 - offset * 0.02})`,
+                          opacity: isPast ? 0 : isActive ? 1 : 0.6 - offset * 0.15,
+                          zIndex: 10 - offset,
+                        }}
+                      >
+                        <div 
+                          className={`rounded-2xl border p-5 backdrop-blur-xl transition-all duration-500 ${
+                            isActive 
+                              ? 'border-[#D4AF37]/40 bg-[#111]/90 shadow-[0_8px_40px_rgba(212,175,55,0.15)]' 
+                              : 'border-white/10 bg-[#0a0a0a]/80'
+                          }`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div 
+                              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-bold transition-all duration-500 ${
+                                isActive 
+                                  ? 'bg-gradient-to-br from-[#D4AF37] to-[#AA8C2C] text-black shadow-[0_0_25px_rgba(212,175,55,0.5)]' 
+                                  : 'border border-white/15 bg-white/5 text-white/40'
+                              }`}
+                            >
+                              {item.step}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className={`font-semibold transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/60'}`}>
+                                {item.title}
+                              </h3>
+                              <p className={`mt-1 text-sm truncate transition-colors duration-300 ${isActive ? 'text-white/50' : 'text-white/30'}`}>
+                                {item.description}
+                              </p>
+                            </div>
+                            {isActive && (
+                              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10">
+                                <svg className="h-4 w-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                  
+                  {/* Navigation dots */}
+                  <div className="absolute -bottom-8 left-1/2 flex -translate-x-1/2 gap-2">
+                    {processSteps.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setActiveIndex(index)}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          index === activeIndex 
+                            ? 'w-6 bg-[#D4AF37]' 
+                            : 'w-2 bg-white/20 hover:bg-white/40'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -139,52 +211,6 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         </footer>
       </div>
     </main>
-  )
-}
-
-function ProcessCard({ 
-  step, 
-  title, 
-  description,
-  isActive = false,
-  delay = 0
-}: { 
-  step: string
-  title: string
-  description: string 
-  isActive?: boolean
-  delay?: number
-}) {
-  return (
-    <div 
-      className={`glass-card group animate-fade-in-up opacity-0 p-6 transition-all duration-500 hover:scale-[1.02] hover:border-[#D4AF37]/30 ${
-        isActive ? 'border-[#D4AF37]/20' : ''
-      }`}
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      <div className="flex items-start gap-5">
-        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-sm font-bold transition-all duration-300 ${
-          isActive 
-            ? 'bg-gradient-to-br from-[#D4AF37] to-[#AA8C2C] text-black shadow-[0_0_30px_rgba(212,175,55,0.3)]' 
-            : 'border border-white/10 bg-white/5 text-white/40 group-hover:border-[#D4AF37]/30 group-hover:text-white/60'
-        }`}>
-          {step}
-        </div>
-        <div className="flex-1">
-          <h3 className={`text-lg font-medium transition-colors ${isActive ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
-            {title}
-          </h3>
-          <p className="mt-2 text-sm leading-relaxed text-white/40">{description}</p>
-        </div>
-        {isActive && (
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D4AF37]/10">
-            <svg className="h-4 w-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-        )}
-      </div>
-    </div>
   )
 }
 

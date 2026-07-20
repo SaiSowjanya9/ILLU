@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { CustomerHomeProfile, FieldSource } from '../../types'
 
 type ProfileCardProps = {
@@ -7,15 +8,27 @@ type ProfileCardProps = {
   isEditable?: boolean
 }
 
+const fieldOptions: Record<string, string[]> = {
+  home_style: ['Modern', 'Contemporary', 'Transitional', 'Traditional', 'Mediterranean', 'Craftsman'],
+  number_of_floors: ['1 Story', '2 Story'],
+  bedrooms: ['3 Bed', '4 Bed', '5 Bed'],
+  bathrooms: ['3 Bath', '4 Bath', '5 Bath'],
+  garage: ['2 Car Garage', '3 Car Garage'],
+  home_office: ['Yes', 'No', 'Optional'],
+  guest_suite: ['Yes', 'No', 'Optional'],
+  covered_patio: ['Covered Patio', 'Open Patio', 'Pool Ready', 'Full Outdoor Kitchen'],
+  kitchen_type: ['Open Kitchen', 'Butler\'s Pantry', 'Island Kitchen'],
+  material_package: ['Standard', 'Premium', 'Luxury', 'Custom'],
+}
+
 const profileFields: {
   key: keyof CustomerHomeProfile
   label: string
-  format?: (value: unknown) => string
 }[] = [
   { key: 'home_style', label: 'Style' },
-  { key: 'number_of_floors', label: 'Floors', format: (v) => v ? `${v} floor${Number(v) > 1 ? 's' : ''}` : 'Not selected' },
-  { key: 'bedrooms', label: 'Bedrooms', format: (v) => v ? `${v} bedroom${Number(v) > 1 ? 's' : ''}` : 'Not selected' },
-  { key: 'bathrooms', label: 'Bathrooms', format: (v) => v ? `${v} bathroom${Number(v) > 1 ? 's' : ''}` : 'Not selected' },
+  { key: 'number_of_floors', label: 'Floors' },
+  { key: 'bedrooms', label: 'Bedrooms' },
+  { key: 'bathrooms', label: 'Bathrooms' },
   { key: 'garage', label: 'Garage' },
   { key: 'home_office', label: 'Home Office' },
   { key: 'guest_suite', label: 'Guest Suite' },
@@ -24,20 +37,9 @@ const profileFields: {
   { key: 'material_package', label: 'Materials' },
 ]
 
-function getSourceBadge(source?: FieldSource) {
-  if (!source || source === 'missing') return null
-  
-  const badges: Record<FieldSource, { label: string; color: string }> = {
-    customer: { label: 'You mentioned', color: '#C9A227' },
-    illu: { label: 'Suggested', color: '#7A9E9F' },
-    manual: { label: 'Selected', color: '#8FAE8B' },
-    missing: { label: '', color: '' },
-  }
-  
-  return badges[source]
-}
+export function ProfileCard({ profile, onFieldUpdate }: ProfileCardProps) {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
-export function ProfileCard({ profile, fieldSources = {} }: ProfileCardProps) {
   const completedFields = profileFields.filter(f => {
     const value = profile[f.key]
     return value !== null && value !== 'Not selected'
@@ -45,50 +47,79 @@ export function ProfileCard({ profile, fieldSources = {} }: ProfileCardProps) {
 
   const progress = Math.round((completedFields.length / profileFields.length) * 100)
 
+  const handleSelect = (field: string, value: string) => {
+    onFieldUpdate?.(field, value)
+    setOpenDropdown(null)
+  }
+
   return (
-    <div className="rounded-2xl border border-[#C9A227]/15 bg-[#141414] p-5">
+    <div className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-5">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-[#C9A227]/70">
+        <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
           Home Profile
         </h3>
         <span className="text-sm text-white/40">{progress}% complete</span>
       </div>
 
-      <div className="mb-5 h-1 overflow-hidden rounded-full bg-white/10">
+      <div className="mb-5 h-1.5 overflow-hidden rounded-full bg-white/10">
         <div 
-          className="h-full bg-gradient-to-r from-[#9A7B1A] via-[#C9A227] to-[#E5C158] transition-all duration-500"
+          className="h-full bg-gradient-to-r from-[#AA8C2C] via-[#D4AF37] to-[#E5C158] transition-all duration-500"
           style={{ width: `${progress}%` }}
         />
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         {profileFields.map((field) => {
           const rawValue = profile[field.key]
-          const value = field.format ? field.format(rawValue) : String(rawValue ?? 'Not selected')
-          const isSet = rawValue !== null && rawValue !== 'Not selected'
-          const source = fieldSources[field.key]
-          const badge = getSourceBadge(source)
+          const value = rawValue && rawValue !== 'Not selected' ? String(rawValue) : null
+          const isSet = !!value
+          const isOpen = openDropdown === field.key
+          const options = fieldOptions[field.key] || []
 
           return (
-            <div
-              key={field.key}
-              className={`rounded-xl border px-3 py-2.5 transition-all duration-200 ${
-                isSet 
-                  ? 'border-[#C9A227]/25 bg-[#1A1A1A]' 
-                  : 'border-white/5 bg-[#0D0D0D]'
-              }`}
-            >
-              <p className="text-xs text-white/35">{field.label}</p>
-              <p className={`mt-0.5 text-sm ${isSet ? 'text-white' : 'text-white/25'}`}>
-                {value}
-              </p>
-              {badge && isSet && (
-                <p 
-                  className="mt-1 text-[10px] uppercase tracking-wider"
-                  style={{ color: badge.color }}
-                >
-                  {badge.label}
-                </p>
+            <div key={field.key} className="relative">
+              <button
+                onClick={() => setOpenDropdown(isOpen ? null : field.key)}
+                className={`w-full rounded-xl border px-4 py-3 text-left transition-all duration-200 ${
+                  isSet 
+                    ? 'border-[#D4AF37]/30 bg-[#111]' 
+                    : 'border-white/10 bg-[#050505] hover:border-white/20'
+                } ${isOpen ? 'border-[#D4AF37]/50 shadow-[0_0_15px_rgba(212,175,55,0.1)]' : ''}`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-white/40">{field.label}</p>
+                    <p className={`mt-1 text-sm ${isSet ? 'text-white' : 'text-white/30'}`}>
+                      {value || 'Select...'}
+                    </p>
+                  </div>
+                  <svg 
+                    className={`h-4 w-4 text-white/30 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </button>
+
+              {isOpen && (
+                <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] shadow-2xl shadow-black/50">
+                  <div className="max-h-48 overflow-y-auto py-1">
+                    {options.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => handleSelect(field.key, option)}
+                        className={`w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#D4AF37]/10 ${
+                          value === option ? 'bg-[#D4AF37]/10 text-[#D4AF37]' : 'text-white/70'
+                        }`}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
           )

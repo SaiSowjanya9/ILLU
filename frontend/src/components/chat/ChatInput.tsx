@@ -39,31 +39,26 @@ export function ChatInput({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="border-t border-[#C9A227]/10 bg-[#141414] p-4">
-      <div className="flex items-end gap-3">
-        <div className="relative flex-1">
-          <textarea
-            ref={textareaRef}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={disabled}
-            placeholder={placeholder}
-            rows={1}
-            className="w-full resize-none rounded-xl border border-[#C9A227]/15 bg-[#0D0D0D] px-4 py-3 pr-12 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#C9A227]/40 disabled:opacity-50"
-            style={{ maxHeight: '150px' }}
-          />
-          <span className="absolute bottom-3 right-3 text-xs text-white/25">
-            {message.length > 0 && 'Enter to send'}
-          </span>
-        </div>
+    <form onSubmit={handleSubmit} className="border-t border-white/5 bg-[#0a0a0a] p-4">
+      <div className="flex items-end gap-3 rounded-2xl border border-white/10 bg-[#030303] p-2 transition-all focus-within:border-[#D4AF37]/30 focus-within:shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+        <textarea
+          ref={textareaRef}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          disabled={disabled}
+          placeholder={placeholder}
+          rows={1}
+          className="min-h-[44px] w-full flex-1 resize-none bg-transparent px-3 py-2.5 text-sm leading-relaxed text-white outline-none placeholder:text-white/30 disabled:opacity-50"
+          style={{ maxHeight: '120px' }}
+        />
         <button
           type="submit"
           disabled={disabled || !message.trim()}
-          className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-r from-[#C9A227] to-[#9A7B1A] text-[#0D0D0D] transition hover:from-[#E5C158] hover:to-[#C9A227] disabled:opacity-50"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#AA8C2C] text-black transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] disabled:opacity-40 disabled:hover:shadow-none"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </button>
       </div>
